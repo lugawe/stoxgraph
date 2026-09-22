@@ -9,6 +9,9 @@
 
     <packaging>jar</packaging>
 
+    <name>stoxgraph</name>
+    <description>Graphs for stocks</description>
+
     <properties>
         <!-- general -->
         <project.encoding>UTF-8</project.encoding>

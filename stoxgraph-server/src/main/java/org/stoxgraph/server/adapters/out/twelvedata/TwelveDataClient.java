@@ -24,6 +24,8 @@ import com.twelvedata.client.ws.TwelvedataWebSocketOptions;
 import io.quarkus.cache.CacheResult;
 import io.smallrye.mutiny.Multi;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.stoxgraph.core.domain.marketdata.Candle;
 import org.stoxgraph.core.domain.marketdata.CandleQuery;
 import org.stoxgraph.core.domain.marketdata.CandleSeries;
@@ -33,6 +35,8 @@ import org.stoxgraph.core.domain.money.Currency;
 
 @Singleton
 public class TwelveDataClient {
+
+    private static final Logger log = LoggerFactory.getLogger(TwelveDataClient.class);
 
     private final MarketDataApi api;
     private final CurrenciesApi currencies;
@@ -54,6 +58,7 @@ public class TwelveDataClient {
 
     @CacheResult(cacheName = "exchange-rates")
     public BigDecimal getExchangeRate(Currency from, Currency to) {
+        log.info("Twelve Data API: Request exchange rate {}/{}", from, to);
         GetExchangeRate200Response r = Utils.call(() -> currencies.getExchangeRate(
                 APIGetExchangeRateRequest.newBuilder().symbol(from + "/" + to).build()));
         return BigDecimal.valueOf(r.getRate());
@@ -71,6 +76,7 @@ public class TwelveDataClient {
 
     @CacheResult(cacheName = "quotes")
     public Quote getQuote(Symbol symbol) {
+        log.info("Twelve Data API: Request quote {}", symbol);
         GetQuote200Response r = Utils.call(() -> api.getQuote(
                 APIGetQuoteRequest.newBuilder().symbol(symbol.value()).build()));
         return toQuote(r);
@@ -81,6 +87,7 @@ public class TwelveDataClient {
     }
 
     private CandleSeries fetchCandleSeries(Symbol symbol, CandleQuery query) {
+        log.info("Twelve Data API: Request candles {} {}", symbol, query);
         GetTimeSeries200Response r = Utils.call(() -> api.getTimeSeries(APIGetTimeSeriesRequest.newBuilder()
                 .symbol(symbol.value())
                 .interval(Utils.toIntervalEnum(query.interval()))

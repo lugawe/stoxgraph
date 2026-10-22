@@ -73,7 +73,7 @@ public final class DefaultMarketDataServicePortIn implements MarketDataServicePo
         }
 
         BigDecimal exchangeRate = exchangeRateServicePortOut.getExchangeRate(from, to);
-        logger.debug("converter {} to {} at rate {}", from, to, exchangeRate);
+        logger.debug("currency converter {} to {} at rate {}", from, to, exchangeRate);
         return new CurrencyConverter(exchangeRate);
     }
 }

@@ -12,23 +12,30 @@ import org.stoxgraph.core.domain.marketdata.Symbol;
 import org.stoxgraph.core.domain.money.Currency;
 import org.stoxgraph.core.ports.out.ExchangeRateServicePortOut;
 import org.stoxgraph.core.ports.out.MarketDataServicePortOut;
+import org.stoxgraph.core.service.logging.Logger;
 import org.stoxgraph.core.service.money.CurrencyConverter;
 import org.stoxgraph.core.util.Publishers;
 
 public final class DefaultMarketDataServicePortIn implements MarketDataServicePortIn {
 
+    private final Logger logger;
     private final MarketDataServicePortOut marketDataServicePortOut;
     private final ExchangeRateServicePortOut exchangeRateServicePortOut;
 
     public DefaultMarketDataServicePortIn(
-            MarketDataServicePortOut marketDataServicePortOut, ExchangeRateServicePortOut exchangeRateServicePortOut) {
+            Logger logger,
+            MarketDataServicePortOut marketDataServicePortOut,
+            ExchangeRateServicePortOut exchangeRateServicePortOut) {
 
+        this.logger = Objects.requireNonNull(logger);
         this.marketDataServicePortOut = Objects.requireNonNull(marketDataServicePortOut);
-        this.exchangeRateServicePortOut = exchangeRateServicePortOut;
+        this.exchangeRateServicePortOut = Objects.requireNonNull(exchangeRateServicePortOut);
     }
 
     @Override
     public Quote getQuote(Symbol symbol, Currency currency) {
+
+        logger.debug("getQuote {} in {}", symbol, currency);
 
         Quote quote = marketDataServicePortOut.getQuote(symbol);
 
@@ -40,6 +47,8 @@ public final class DefaultMarketDataServicePortIn implements MarketDataServicePo
     @Override
     public CandleSeries getCandles(Symbol symbol, CandleQuery query, Currency currency) {
 
+        logger.debug("getCandles {} {} in {}", symbol, query, currency);
+
         CandleSeries candles = marketDataServicePortOut.getCandles(symbol, query);
 
         Function<BigDecimal, BigDecimal> converter = converter(candles.currency(), currency);
@@ -49,6 +58,8 @@ public final class DefaultMarketDataServicePortIn implements MarketDataServicePo
 
     @Override
     public Flow.Publisher<Quote> streamQuotes(Symbol symbol, Currency currency) {
+
+        logger.debug("streamQuotes {} in {}", symbol, currency);
 
         Flow.Publisher<Quote> stream = marketDataServicePortOut.streamQuotes(symbol);
 
@@ -62,6 +73,7 @@ public final class DefaultMarketDataServicePortIn implements MarketDataServicePo
         }
 
         BigDecimal exchangeRate = exchangeRateServicePortOut.getExchangeRate(from, to);
+        logger.debug("converter {} to {} at rate {}", from, to, exchangeRate);
         return new CurrencyConverter(exchangeRate);
     }
 }

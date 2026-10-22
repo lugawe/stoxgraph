@@ -1,5 +1,11 @@
 package org.stoxgraph.core.ports.in;
 
-import org.stoxgraph.core.ports.ExchangeRateService;
+import java.math.BigDecimal;
 
-public interface ExchangeRateServicePortIn extends ExchangeRateService {}
+import org.stoxgraph.core.domain.money.Currency;
+
+public interface ExchangeRateServicePortIn {
+
+    /** Returns how many units of {@code to} one unit of {@code from} is worth. */
+    BigDecimal getExchangeRate(Currency from, Currency to);
+}

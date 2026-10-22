@@ -1,4 +1,4 @@
-package org.stoxgraph.core.ports;
+package org.stoxgraph.core.ports.out;
 
 import java.util.concurrent.Flow;
 
@@ -7,10 +7,7 @@ import org.stoxgraph.core.domain.marketdata.CandleSeries;
 import org.stoxgraph.core.domain.marketdata.Quote;
 import org.stoxgraph.core.domain.marketdata.Symbol;
 
-/**
- * Market data in the native currency of the stock.
- */
-public interface MarketDataService {
+public interface MarketDataServicePortOut {
 
     Quote getQuote(Symbol symbol);
 

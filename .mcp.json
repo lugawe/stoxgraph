@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "stoxgraph": {
+      "type": "http",
+      "url": "http://localhost:8080/api/mcp"
+    }
+  }
+}

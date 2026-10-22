@@ -1,16 +1,14 @@
 package org.stoxgraph;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
+import io.quarkus.runtime.Quarkus;
+import io.quarkus.runtime.annotations.QuarkusMain;
 
-@ConfigurationPropertiesScan
-@SpringBootApplication
+@QuarkusMain
 public class Server {
 
     public Server() {}
 
     static void main(String[] args) {
-        SpringApplication.run(Server.class, args);
+        Quarkus.run(args);
     }
 }

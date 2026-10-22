@@ -3,7 +3,6 @@ package org.stoxgraph.server.cdi.core;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Produces;
 import jakarta.inject.Inject;
-import jakarta.inject.Singleton;
 
 import org.stoxgraph.core.ports.in.DefaultMarketDataServicePortIn;
 import org.stoxgraph.core.ports.in.MarketDataServicePortIn;
@@ -22,7 +21,6 @@ public class MarketDataProducer {
     public MarketDataProducer() {}
 
     @Produces
-    @Singleton
     public MarketDataServicePortIn produce() {
         return new DefaultMarketDataServicePortIn(marketDataServicePortOut, exchangeRateServicePortOut);
     }

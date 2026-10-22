@@ -5,9 +5,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 @QuarkusTest
-public class ServerTest {
+public class StoxgraphServerTest {
 
-    public ServerTest() {}
+    public StoxgraphServerTest() {}
 
     @Test
     void test() {

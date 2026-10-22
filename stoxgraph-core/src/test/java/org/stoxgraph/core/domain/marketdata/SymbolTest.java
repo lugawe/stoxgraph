@@ -2,7 +2,7 @@ package org.stoxgraph.core.domain.marketdata;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.stoxgraph.core.exception.marketdata.InvalidRequestException;
+import org.stoxgraph.core.exception.InvalidRequestException;
 
 public class SymbolTest {
 

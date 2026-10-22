@@ -2,7 +2,7 @@ package org.stoxgraph.core.domain.marketdata;
 
 import java.util.Locale;
 
-import org.stoxgraph.core.exception.marketdata.InvalidRequestException;
+import org.stoxgraph.core.exception.InvalidRequestException;
 
 /**
  * Ticker symbol of a stock, normalized to upper case without surrounding whitespace.

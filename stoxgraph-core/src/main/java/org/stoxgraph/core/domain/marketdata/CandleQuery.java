@@ -2,7 +2,7 @@ package org.stoxgraph.core.domain.marketdata;
 
 import java.time.LocalDate;
 
-import org.stoxgraph.core.exception.marketdata.InvalidRequestException;
+import org.stoxgraph.core.exception.InvalidRequestException;
 
 /**
  * Which candles of a stock to return.

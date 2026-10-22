@@ -14,7 +14,7 @@ import org.stoxgraph.core.domain.marketdata.Interval;
 import org.stoxgraph.core.domain.marketdata.Quote;
 import org.stoxgraph.core.domain.marketdata.Symbol;
 import org.stoxgraph.core.domain.money.Currency;
-import org.stoxgraph.core.exception.marketdata.MarketDataException;
+import org.stoxgraph.core.exception.MarketDataException;
 import org.stoxgraph.core.ports.in.MarketDataServicePortIn;
 
 @Singleton

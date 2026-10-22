@@ -10,8 +10,8 @@ import com.twelvedata.client.errors.TwelvedataApiException;
 import com.twelvedata.client.model.IntervalEnum;
 import org.stoxgraph.core.domain.marketdata.Interval;
 import org.stoxgraph.core.domain.money.Currency;
-import org.stoxgraph.core.exception.marketdata.MarketDataException;
-import org.stoxgraph.core.exception.marketdata.UnknownSymbolException;
+import org.stoxgraph.core.exception.MarketDataException;
+import org.stoxgraph.core.exception.UnknownSymbolException;
 
 public final class Utils {
 

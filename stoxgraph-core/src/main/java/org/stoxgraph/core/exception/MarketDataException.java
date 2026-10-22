@@ -1,4 +1,4 @@
-package org.stoxgraph.core.exception.marketdata;
+package org.stoxgraph.core.exception;
 
 public class MarketDataException extends RuntimeException {
 

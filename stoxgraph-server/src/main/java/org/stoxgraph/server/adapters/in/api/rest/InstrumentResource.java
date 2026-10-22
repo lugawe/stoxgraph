@@ -10,30 +10,28 @@ import io.smallrye.common.annotation.Blocking;
 import io.smallrye.common.annotation.RunOnVirtualThread;
 import io.smallrye.mutiny.Multi;
 import org.jboss.resteasy.reactive.RestStreamElementType;
-import org.stoxgraph.core.domain.marketdata.CandleQuery;
-import org.stoxgraph.core.domain.marketdata.CandleSeries;
 import org.stoxgraph.core.domain.marketdata.Interval;
-import org.stoxgraph.core.domain.marketdata.Quote;
-import org.stoxgraph.core.domain.marketdata.Symbol;
 import org.stoxgraph.core.domain.money.Currency;
-import org.stoxgraph.core.ports.in.MarketDataServicePortIn;
+import org.stoxgraph.server.adapters.in.api.json.JsonCandleSeries;
+import org.stoxgraph.server.adapters.in.api.json.JsonQuote;
+import org.stoxgraph.server.adapters.in.api.rest.service.RestInstrumentService;
 
 @RunOnVirtualThread
-@Path("/stocks")
+@Path("/instruments")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-public class StockResource {
+public class InstrumentResource {
 
-    private final MarketDataServicePortIn marketDataServicePortIn;
+    private final RestInstrumentService restInstrumentService;
 
     @Inject
-    public StockResource(MarketDataServicePortIn marketDataServicePortIn) {
-        this.marketDataServicePortIn = marketDataServicePortIn;
+    public InstrumentResource(RestInstrumentService restInstrumentService) {
+        this.restInstrumentService = restInstrumentService;
     }
 
     @GET
     @Path("/{symbol}/candles")
-    public CandleSeries getCandles(
+    public JsonCandleSeries getCandles(
             @PathParam("symbol") String symbol,
             @QueryParam("interval") @DefaultValue("1day") Interval interval,
             @QueryParam("start") LocalDate start,
@@ -41,18 +39,15 @@ public class StockResource {
             @QueryParam("limit") @DefaultValue("30") long limit,
             @QueryParam("currency") @DefaultValue("EUR") Currency currency) {
 
-        Symbol s = new Symbol(symbol);
-        CandleQuery candleQuery = new CandleQuery(interval, start, end, limit);
-        return marketDataServicePortIn.getCandles(s, candleQuery, currency);
+        return restInstrumentService.getCandles(symbol, interval, start, end, limit, currency);
     }
 
     @GET
     @Path("/{symbol}/quote")
-    public Quote getQuote(
+    public JsonQuote getQuote(
             @PathParam("symbol") String symbol, @QueryParam("currency") @DefaultValue("EUR") Currency currency) {
 
-        Symbol s = new Symbol(symbol);
-        return marketDataServicePortIn.getQuote(s, currency);
+        return restInstrumentService.getQuote(symbol, currency);
     }
 
     @Blocking
@@ -60,10 +55,9 @@ public class StockResource {
     @Path("/{symbol}/quote/stream")
     @Produces(MediaType.SERVER_SENT_EVENTS)
     @RestStreamElementType(MediaType.APPLICATION_JSON)
-    public Multi<Quote> streamQuotes(
+    public Multi<JsonQuote> streamQuotes(
             @PathParam("symbol") String symbol, @QueryParam("currency") @DefaultValue("EUR") Currency currency) {
 
-        Symbol s = new Symbol(symbol);
-        return Multi.createFrom().publisher(marketDataServicePortIn.streamQuotes(s, currency));
+        return restInstrumentService.streamQuotes(symbol, currency);
     }
 }

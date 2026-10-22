@@ -9,10 +9,10 @@ public class CurrencyConverter implements Function<BigDecimal, BigDecimal> {
 
     private static final int SCALE = 6;
 
-    private final BigDecimal rate;
+    protected final BigDecimal rate;
 
     public CurrencyConverter(BigDecimal rate) {
-        this.rate = Objects.requireNonNull(rate);
+        this.rate = Objects.requireNonNull(rate, "rate");
     }
 
     @Override

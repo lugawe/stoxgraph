@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import org.stoxgraph.core.exception.InvalidRequestException;
 
 /**
- * Which candles of a stock to return.
+ * Which candles of an instrument to return.
  *
  * @param interval length of one candle
  * @param start first day to include, or {@code null} for no lower bound

@@ -8,11 +8,11 @@ import java.util.function.Function;
 import org.stoxgraph.core.domain.money.Currency;
 
 /**
- * Snapshot of the current state of a stock: "what is the price right now and how did it move today?".
+ * Snapshot of the current state of an instrument: "what is the price right now and how did it move today?".
  *
  * @param timestamp time of the last price update
  * @param symbol ticker symbol, e.g. {@code AAPL}
- * @param name company name
+ * @param name instrument name, e.g. the company or fund name
  * @param exchange exchange the quote comes from, e.g. {@code NASDAQ}
  * @param currency currency of all prices, e.g. {@code USD}
  * @param price last traded price; the closing price if the market is closed
@@ -22,7 +22,7 @@ import org.stoxgraph.core.domain.money.Currency;
  * @param previousClose closing price of the previous trading day
  * @param change absolute change of {@code price} compared to {@code previousClose}
  * @param percentChange change in percent compared to {@code previousClose}, e.g. {@code 0.5} for +0.5%
- * @param volume number of shares traded on the current trading day
+ * @param volume number of units traded on the current trading day
  * @param marketOpen whether the exchange is currently open
  */
 public record Quote(

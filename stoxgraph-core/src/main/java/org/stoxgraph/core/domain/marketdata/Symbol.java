@@ -5,7 +5,7 @@ import java.util.Locale;
 import org.stoxgraph.core.exception.InvalidRequestException;
 
 /**
- * Ticker symbol of a stock, normalized to upper case without surrounding whitespace.
+ * Ticker symbol of an instrument (e.g. a stock or an ETF), normalized to upper case without surrounding whitespace.
  *
  * @param value the normalized symbol, e.g. {@code AAPL}
  */

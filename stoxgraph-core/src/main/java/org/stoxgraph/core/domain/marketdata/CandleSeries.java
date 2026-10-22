@@ -8,7 +8,7 @@ import java.util.function.Function;
 import org.stoxgraph.core.domain.money.Currency;
 
 /**
- * Price history of a stock as a sequence of candles of the same length.
+ * Price history of an instrument as a sequence of candles of the same length.
  *
  * @param symbol ticker symbol, e.g. {@code AAPL}
  * @param interval length of one candle

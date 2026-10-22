@@ -1,8 +1,9 @@
 package org.stoxgraph.core.domain.marketdata;
 
+import org.stoxgraph.core.exception.ValidationException;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.stoxgraph.core.exception.InvalidRequestException;
 
 public class SymbolTest {
 
@@ -15,7 +16,7 @@ public class SymbolTest {
 
     @Test
     void test2() {
-        Assertions.assertThrows(InvalidRequestException.class, () -> new Symbol(null));
-        Assertions.assertThrows(InvalidRequestException.class, () -> new Symbol(" "));
+        Assertions.assertThrows(ValidationException.class, () -> new Symbol(null));
+        Assertions.assertThrows(ValidationException.class, () -> new Symbol(" "));
     }
 }

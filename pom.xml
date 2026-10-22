@@ -102,7 +102,7 @@
                                 <version>2.102.0</version>
                             </palantirJavaFormat>
                             <importOrder>
-                                <order>java,jakarta,javax</order>
+                                <order>java,jakarta,javax,org.stoxgraph</order>
                             </importOrder>
                             <forbidModuleImports />
                         </java>

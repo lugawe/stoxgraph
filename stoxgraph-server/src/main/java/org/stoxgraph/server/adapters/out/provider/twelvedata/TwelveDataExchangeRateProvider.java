@@ -6,15 +6,15 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
 import org.stoxgraph.core.domain.money.Currency;
-import org.stoxgraph.core.ports.out.ExchangeRateServicePortOut;
+import org.stoxgraph.core.ports.out.provider.ExchangeRateProvider;
 
 @ApplicationScoped
-public class TwelveDataExchangeRateService implements ExchangeRateServicePortOut {
+public class TwelveDataExchangeRateProvider implements ExchangeRateProvider {
 
     private final TwelveDataClient client;
 
     @Inject
-    public TwelveDataExchangeRateService(TwelveDataClient client) {
+    public TwelveDataExchangeRateProvider(TwelveDataClient client) {
         this.client = client;
     }
 

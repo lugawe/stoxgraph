@@ -6,17 +6,17 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;
 
-import org.stoxgraph.core.exception.InvalidRequestException;
+import org.stoxgraph.core.exception.NotFoundException;
 
 @Provider
 @ApplicationScoped
-public class InvalidRequestExceptionMapper implements ExceptionMapper<InvalidRequestException> {
+public class NotFoundExceptionMapper implements ExceptionMapper<NotFoundException> {
 
     @Inject
-    public InvalidRequestExceptionMapper() {}
+    public NotFoundExceptionMapper() {}
 
     @Override
-    public Response toResponse(InvalidRequestException exception) {
-        return Response.status(400).build();
+    public Response toResponse(NotFoundException exception) {
+        return Response.status(404).build();
     }
 }

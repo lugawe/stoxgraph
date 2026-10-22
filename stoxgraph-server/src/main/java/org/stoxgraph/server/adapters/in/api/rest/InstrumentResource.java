@@ -6,15 +6,16 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 
-import io.smallrye.common.annotation.Blocking;
-import io.smallrye.common.annotation.RunOnVirtualThread;
-import io.smallrye.mutiny.Multi;
-import org.jboss.resteasy.reactive.RestStreamElementType;
 import org.stoxgraph.core.domain.marketdata.Interval;
 import org.stoxgraph.core.domain.money.Currency;
 import org.stoxgraph.server.adapters.in.api.json.JsonCandleSeries;
 import org.stoxgraph.server.adapters.in.api.json.JsonQuote;
 import org.stoxgraph.server.adapters.in.api.rest.service.RestInstrumentService;
+
+import io.smallrye.common.annotation.Blocking;
+import io.smallrye.common.annotation.RunOnVirtualThread;
+import io.smallrye.mutiny.Multi;
+import org.jboss.resteasy.reactive.RestStreamElementType;
 
 @RunOnVirtualThread
 @Path("/instruments")

@@ -3,13 +3,14 @@ package org.stoxgraph.server.adapters.out.provider.twelvedata;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.stoxgraph.core.domain.marketdata.Symbol;
+
 import com.twelvedata.client.ws.*;
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
 import io.smallrye.mutiny.operators.multi.processors.BroadcastProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.stoxgraph.core.domain.marketdata.Symbol;
 
 public class TwelveDataPriceStream {
 

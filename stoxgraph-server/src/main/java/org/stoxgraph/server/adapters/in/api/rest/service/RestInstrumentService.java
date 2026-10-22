@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
-import io.smallrye.mutiny.Multi;
 import org.stoxgraph.core.domain.marketdata.CandleQuery;
 import org.stoxgraph.core.domain.marketdata.CandleSeries;
 import org.stoxgraph.core.domain.marketdata.Interval;
@@ -16,6 +15,8 @@ import org.stoxgraph.core.ports.in.MarketDataServicePortIn;
 import org.stoxgraph.server.adapters.in.api.json.JsonCandleSeries;
 import org.stoxgraph.server.adapters.in.api.json.JsonQuote;
 import org.stoxgraph.server.adapters.in.api.json.converter.JsonConverter;
+
+import io.smallrye.mutiny.Multi;
 
 @ApplicationScoped
 public class RestInstrumentService {

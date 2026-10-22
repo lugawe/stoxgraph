@@ -6,17 +6,17 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;
 
-import org.stoxgraph.core.exception.UnknownSymbolException;
+import org.stoxgraph.core.exception.ValidationException;
 
 @Provider
 @ApplicationScoped
-public class UnknownSymbolExceptionMapper implements ExceptionMapper<UnknownSymbolException> {
+public class ValidationExceptionMapper implements ExceptionMapper<ValidationException> {
 
     @Inject
-    public UnknownSymbolExceptionMapper() {}
+    public ValidationExceptionMapper() {}
 
     @Override
-    public Response toResponse(UnknownSymbolException exception) {
-        return Response.status(404).build();
+    public Response toResponse(ValidationException exception) {
+        return Response.status(400).build();
     }
 }

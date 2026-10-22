@@ -6,17 +6,17 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;
 
-import org.stoxgraph.core.exception.MarketDataException;
+import org.stoxgraph.core.exception.ProviderException;
 
 @Provider
 @ApplicationScoped
-public class MarketDataExceptionMapper implements ExceptionMapper<MarketDataException> {
+public class ProviderExceptionMapper implements ExceptionMapper<ProviderException> {
 
     @Inject
-    public MarketDataExceptionMapper() {}
+    public ProviderExceptionMapper() {}
 
     @Override
-    public Response toResponse(MarketDataException exception) {
+    public Response toResponse(ProviderException exception) {
         return Response.status(502).build();
     }
 }

@@ -6,21 +6,22 @@ import java.util.Objects;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
-import com.twelvedata.client.ws.PriceEvent;
-import io.smallrye.mutiny.Multi;
 import org.stoxgraph.core.domain.marketdata.CandleQuery;
 import org.stoxgraph.core.domain.marketdata.CandleSeries;
 import org.stoxgraph.core.domain.marketdata.Quote;
 import org.stoxgraph.core.domain.marketdata.Symbol;
-import org.stoxgraph.core.ports.out.MarketDataServicePortOut;
+import org.stoxgraph.core.ports.out.provider.MarketDataProvider;
+
+import com.twelvedata.client.ws.PriceEvent;
+import io.smallrye.mutiny.Multi;
 
 @ApplicationScoped
-public class TwelveDataMarketService implements MarketDataServicePortOut {
+public class TwelveDataMarketDataProvider implements MarketDataProvider {
 
     private final TwelveDataClient client;
 
     @Inject
-    public TwelveDataMarketService(TwelveDataClient client) {
+    public TwelveDataMarketDataProvider(TwelveDataClient client) {
         this.client = client;
     }
 
@@ -39,7 +40,7 @@ public class TwelveDataMarketService implements MarketDataServicePortOut {
     @Override
     public Multi<Quote> streamQuotes(Symbol symbol) {
         Quote quote = client.getQuote(symbol);
-        return client.streamPrices(symbol).onItem().scan(() -> quote, TwelveDataMarketService::applyTick);
+        return client.streamPrices(symbol).onItem().scan(() -> quote, TwelveDataMarketDataProvider::applyTick);
     }
 
     private static Quote applyTick(Quote quote, PriceEvent tick) {

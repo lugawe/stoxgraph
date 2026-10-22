@@ -1,7 +1,8 @@
 package org.stoxgraph.server.logging;
 
-import org.slf4j.LoggerFactory;
 import org.stoxgraph.core.service.logging.Logger;
+
+import org.slf4j.LoggerFactory;
 
 public final class Slf4jLoggerFactory {
 

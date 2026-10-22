@@ -10,17 +10,18 @@ import java.util.Objects;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
-import com.twelvedata.client.model.GetQuote200Response;
-import com.twelvedata.client.model.GetTimeSeries200Response;
-import com.twelvedata.client.model.IntervalEnum;
-import com.twelvedata.client.model.TimeSeriesItem;
 import org.stoxgraph.core.domain.marketdata.Candle;
 import org.stoxgraph.core.domain.marketdata.CandleSeries;
 import org.stoxgraph.core.domain.marketdata.Interval;
 import org.stoxgraph.core.domain.marketdata.Quote;
 import org.stoxgraph.core.domain.marketdata.Symbol;
 import org.stoxgraph.core.domain.money.Currency;
-import org.stoxgraph.core.exception.MarketDataException;
+import org.stoxgraph.core.exception.ProviderException;
+
+import com.twelvedata.client.model.GetQuote200Response;
+import com.twelvedata.client.model.GetTimeSeries200Response;
+import com.twelvedata.client.model.IntervalEnum;
+import com.twelvedata.client.model.TimeSeriesItem;
 
 @ApplicationScoped
 public class TwelveDataConverter {
@@ -83,7 +84,7 @@ public class TwelveDataConverter {
         try {
             return Currency.valueOf(code);
         } catch (IllegalArgumentException | NullPointerException e) {
-            throw new MarketDataException("Unsupported currency: " + code, e);
+            throw new ProviderException("Unsupported currency: " + code, e);
         }
     }
 

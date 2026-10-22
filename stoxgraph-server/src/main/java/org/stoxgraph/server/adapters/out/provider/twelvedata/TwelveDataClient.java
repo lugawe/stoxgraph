@@ -2,10 +2,21 @@ package org.stoxgraph.server.adapters.out.provider.twelvedata;
 
 import java.math.BigDecimal;
 import java.util.Objects;
+import java.util.function.Supplier;
 
 import jakarta.annotation.PreDestroy;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
+
+import org.stoxgraph.core.domain.marketdata.CandleQuery;
+import org.stoxgraph.core.domain.marketdata.CandleSeries;
+import org.stoxgraph.core.domain.marketdata.Quote;
+import org.stoxgraph.core.domain.marketdata.Symbol;
+import org.stoxgraph.core.domain.money.Currency;
+import org.stoxgraph.core.exception.DomainExceptions;
+import org.stoxgraph.core.exception.NotFoundException;
+import org.stoxgraph.core.exception.ProviderException;
+import org.stoxgraph.server.adapters.out.provider.twelvedata.converter.TwelveDataConverter;
 
 import com.twelvedata.client.ApiClient;
 import com.twelvedata.client.ApiException;
@@ -27,14 +38,6 @@ import io.smallrye.mutiny.Multi;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.stoxgraph.core.domain.marketdata.CandleQuery;
-import org.stoxgraph.core.domain.marketdata.CandleSeries;
-import org.stoxgraph.core.domain.marketdata.Quote;
-import org.stoxgraph.core.domain.marketdata.Symbol;
-import org.stoxgraph.core.domain.money.Currency;
-import org.stoxgraph.core.exception.MarketDataException;
-import org.stoxgraph.core.exception.UnknownSymbolException;
-import org.stoxgraph.server.adapters.out.provider.twelvedata.converter.TwelveDataConverter;
 
 @Singleton
 public class TwelveDataClient {
@@ -66,8 +69,11 @@ public class TwelveDataClient {
     @CacheResult(cacheName = "exchange-rates")
     public BigDecimal getExchangeRate(Currency from, Currency to) {
         log.info("Twelve Data API: Request exchange rate {}/{}", from, to);
-        GetExchangeRate200Response r = call(() -> currencies.getExchangeRate(
-                APIGetExchangeRateRequest.newBuilder().symbol(from + "/" + to).build()));
+        GetExchangeRate200Response r = call(
+                () -> currencies.getExchangeRate(APIGetExchangeRateRequest.newBuilder()
+                        .symbol(from + "/" + to)
+                        .build()),
+                () -> DomainExceptions.createExchangeRateNotFound(from, to));
         return BigDecimal.valueOf(r.getRate());
     }
 
@@ -84,8 +90,10 @@ public class TwelveDataClient {
     @CacheResult(cacheName = "quotes")
     public Quote getQuote(Symbol symbol) {
         log.info("Twelve Data API: Request quote {}", symbol);
-        GetQuote200Response r = call(() -> api.getQuote(
-                APIGetQuoteRequest.newBuilder().symbol(symbol.value()).build()));
+        GetQuote200Response r = call(
+                () -> api.getQuote(
+                        APIGetQuoteRequest.newBuilder().symbol(symbol.value()).build()),
+                () -> DomainExceptions.createSymbolNotFound(symbol));
         return twelveDataConverter.toQuote(r);
     }
 
@@ -95,14 +103,19 @@ public class TwelveDataClient {
 
     private CandleSeries fetchCandleSeries(Symbol symbol, CandleQuery query) {
         log.info("Twelve Data API: Request candles {} {}", symbol, query);
-        GetTimeSeries200Response r = call(() -> api.getTimeSeries(APIGetTimeSeriesRequest.newBuilder()
-                .symbol(symbol.value())
-                .interval(twelveDataConverter.toIntervalEnum(query.interval()))
-                .startDate(Objects.toString(query.start(), null))
-                .endDate(query.end() != null ? query.end().plusDays(1).toString() : null) // end_date is exclusive
-                .outputsize(query.limit())
-                .timezone("UTC")
-                .build()));
+        GetTimeSeries200Response r = call(
+                () -> api.getTimeSeries(APIGetTimeSeriesRequest.newBuilder()
+                        .symbol(symbol.value())
+                        .interval(twelveDataConverter.toIntervalEnum(query.interval()))
+                        .startDate(Objects.toString(query.start(), null))
+                        .endDate(
+                                query.end() != null
+                                        ? query.end().plusDays(1).toString()
+                                        : null) // end_date is exclusive
+                        .outputsize(query.limit())
+                        .timezone("UTC")
+                        .build()),
+                () -> DomainExceptions.createSymbolNotFound(symbol));
         return twelveDataConverter.toCandleSeries(symbol, query.interval(), r);
     }
 
@@ -110,13 +123,15 @@ public class TwelveDataClient {
         T call() throws ApiException;
     }
 
-    private static <T> T call(ApiCall<T> call) {
+    private static <T> T call(ApiCall<T> call, Supplier<NotFoundException> notFound) {
         try {
             return call.call();
         } catch (TwelvedataApiException.NotFoundException e) {
-            throw new UnknownSymbolException(e.getMessage(), e);
+            NotFoundException notFoundException = notFound.get();
+            notFoundException.initCause(e);
+            throw notFoundException;
         } catch (TwelvedataApiException | ApiException e) {
-            throw new MarketDataException("Twelve Data API request failed", e);
+            throw new ProviderException("Twelve Data API request failed", e);
         }
     }
 }

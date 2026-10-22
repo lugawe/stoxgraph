@@ -5,15 +5,18 @@ import java.time.LocalDate;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
-import io.quarkiverse.mcp.server.Tool;
-import io.quarkiverse.mcp.server.ToolArg;
-import io.quarkiverse.mcp.server.ToolCallException;
 import org.stoxgraph.core.domain.marketdata.Interval;
 import org.stoxgraph.core.domain.money.Currency;
-import org.stoxgraph.core.exception.MarketDataException;
+import org.stoxgraph.core.exception.NotFoundException;
+import org.stoxgraph.core.exception.ProviderException;
+import org.stoxgraph.core.exception.ValidationException;
 import org.stoxgraph.server.adapters.in.api.json.JsonCandleSeries;
 import org.stoxgraph.server.adapters.in.api.json.JsonQuote;
 import org.stoxgraph.server.adapters.in.api.mcp.service.McpInstrumentService;
+
+import io.quarkiverse.mcp.server.Tool;
+import io.quarkiverse.mcp.server.ToolArg;
+import io.quarkiverse.mcp.server.ToolCallException;
 
 @Singleton
 public class InstrumentTools {
@@ -46,7 +49,7 @@ public class InstrumentTools {
 
         try {
             return mcpInstrumentService.getCandles(symbol, interval, start, end, limit, currency);
-        } catch (MarketDataException e) {
+        } catch (NotFoundException | ValidationException | ProviderException e) {
             throw new ToolCallException(e.getMessage(), e);
         }
     }
@@ -67,7 +70,7 @@ public class InstrumentTools {
 
         try {
             return mcpInstrumentService.getQuote(symbol, currency);
-        } catch (MarketDataException e) {
+        } catch (NotFoundException | ValidationException | ProviderException e) {
             throw new ToolCallException(e.getMessage(), e);
         }
     }

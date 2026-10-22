@@ -4,13 +4,18 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.stoxgraph</groupId>
-    <artifactId>stoxgraph</artifactId>
+    <artifactId>stoxgraph-project</artifactId>
     <version>0.0.1</version>
 
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
-    <name>stoxgraph</name>
+    <name>stoxgraph-project</name>
     <description>Graphs for stocks</description>
+
+    <modules>
+        <module>stoxgraph-core</module>
+        <module>stoxgraph-server</module>
+    </modules>
 
     <properties>
         <!-- general -->
@@ -31,6 +36,18 @@
         <dependencies>
 
             <dependency>
+                <groupId>org.stoxgraph</groupId>
+                <artifactId>stoxgraph-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.stoxgraph</groupId>
+                <artifactId>stoxgraph-server</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>io.quarkus</groupId>
                 <artifactId>quarkus-bom</artifactId>
                 <version>${quarkus.version}</version>
@@ -38,43 +55,14 @@
                 <scope>import</scope>
             </dependency>
 
+            <dependency>
+                <groupId>io.quarkiverse.mcp</groupId>
+                <artifactId>quarkus-mcp-server-http</artifactId>
+                <version>${quarkus-mcp-server.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
-
-    <dependencies>
-
-        <!-- dependencies -->
-
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-arc</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-rest-jackson</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-cache</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>io.quarkiverse.mcp</groupId>
-            <artifactId>quarkus-mcp-server-http</artifactId>
-            <version>${quarkus-mcp-server.version}</version>
-        </dependency>
-
-        <!-- test dependencies -->
-
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-    </dependencies>
 
     <build>
 
@@ -85,16 +73,6 @@
                     <groupId>io.quarkus</groupId>
                     <artifactId>quarkus-maven-plugin</artifactId>
                     <version>${quarkus.version}</version>
-                    <extensions>true</extensions>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>build</goal>
-                                <goal>generate-code</goal>
-                                <goal>generate-code-tests</goal>
-                            </goals>
-                        </execution>
-                    </executions>
                 </plugin>
 
                 <plugin>
@@ -137,11 +115,6 @@
         </pluginManagement>
 
         <plugins>
-
-            <plugin>
-                <groupId>io.quarkus</groupId>
-                <artifactId>quarkus-maven-plugin</artifactId>
-            </plugin>
 
             <plugin>
                 <groupId>com.diffplug.spotless</groupId>

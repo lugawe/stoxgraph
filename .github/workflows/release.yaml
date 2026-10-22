@@ -49,7 +49,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add pom.xml
+          git add pom.xml '*/pom.xml'
           git commit -m "Release v$VERSION"
           git tag -a "v$VERSION" -m "Release v$VERSION"
           git push --follow-tags

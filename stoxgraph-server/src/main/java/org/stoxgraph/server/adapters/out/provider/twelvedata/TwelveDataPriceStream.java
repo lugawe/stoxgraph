@@ -1,4 +1,4 @@
-package org.stoxgraph.server.adapters.out.twelvedata;
+package org.stoxgraph.server.adapters.out.provider.twelvedata;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

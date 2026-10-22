@@ -1,4 +1,4 @@
-package org.stoxgraph.server.adapters.out.twelvedata;
+package org.stoxgraph.server.adapters.out.provider.twelvedata;
 
 import java.math.BigDecimal;
 import java.util.Objects;

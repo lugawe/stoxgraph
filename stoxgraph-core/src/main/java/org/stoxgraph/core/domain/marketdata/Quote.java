@@ -41,7 +41,7 @@ public record Quote(
         long volume,
         boolean marketOpen) {
 
-    public Quote updatePrice(BigDecimal price, long volume, long timestamp) {
+    public Quote updatePrice(long timestamp, BigDecimal price, long volume) {
 
         BigDecimal change = price.subtract(previousClose);
         BigDecimal percentChange =

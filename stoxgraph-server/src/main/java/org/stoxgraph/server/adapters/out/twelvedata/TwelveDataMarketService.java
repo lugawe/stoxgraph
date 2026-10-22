@@ -44,6 +44,6 @@ public class TwelveDataMarketService implements MarketDataServicePortOut {
 
     private static Quote applyTick(Quote quote, PriceEvent tick) {
         long volume = Objects.requireNonNullElse(tick.getDayVolume(), quote.volume());
-        return quote.updatePrice(BigDecimal.valueOf(tick.getPrice()), volume, tick.getTimestamp());
+        return quote.updatePrice(tick.getTimestamp(), BigDecimal.valueOf(tick.getPrice()), volume);
     }
 }

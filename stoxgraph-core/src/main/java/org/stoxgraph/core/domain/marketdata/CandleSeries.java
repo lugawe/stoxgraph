@@ -15,7 +15,7 @@ import org.stoxgraph.core.domain.money.Currency;
  * @param currency currency of all prices, e.g. {@code USD}
  * @param candles the candles, newest first
  */
-public record CandleSeries(String symbol, Interval interval, Currency currency, SequencedCollection<Candle> candles) {
+public record CandleSeries(Symbol symbol, Interval interval, Currency currency, SequencedCollection<Candle> candles) {
 
     /**
      * Combines all candles into one candle spanning the whole series.

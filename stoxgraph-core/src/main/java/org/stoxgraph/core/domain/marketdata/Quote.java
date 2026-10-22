@@ -27,7 +27,7 @@ import org.stoxgraph.core.domain.money.Currency;
  */
 public record Quote(
         long timestamp,
-        String symbol,
+        Symbol symbol,
         String name,
         String exchange,
         Currency currency,

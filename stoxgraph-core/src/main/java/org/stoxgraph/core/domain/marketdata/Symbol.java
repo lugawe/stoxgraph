@@ -2,7 +2,7 @@ package org.stoxgraph.core.domain.marketdata;
 
 import java.util.Locale;
 
-import org.stoxgraph.core.exception.InvalidRequestException;
+import org.stoxgraph.core.exception.ValidationException;
 
 /**
  * Ticker symbol of an instrument (e.g. a stock or an ETF), normalized to upper case without surrounding whitespace.
@@ -13,7 +13,7 @@ public record Symbol(String value) {
 
     public Symbol {
         if (value == null || value.isBlank()) {
-            throw new InvalidRequestException("Symbol must not be blank");
+            throw new ValidationException("Symbol must not be blank");
         }
         value = value.trim().toUpperCase(Locale.ROOT);
     }

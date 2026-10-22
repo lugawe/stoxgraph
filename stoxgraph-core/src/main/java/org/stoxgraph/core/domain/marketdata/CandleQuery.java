@@ -2,7 +2,7 @@ package org.stoxgraph.core.domain.marketdata;
 
 import java.time.LocalDate;
 
-import org.stoxgraph.core.exception.InvalidRequestException;
+import org.stoxgraph.core.exception.ValidationException;
 
 /**
  * Which candles of an instrument to return.
@@ -16,13 +16,13 @@ public record CandleQuery(Interval interval, LocalDate start, LocalDate end, lon
 
     public CandleQuery {
         if (interval == null) {
-            throw new InvalidRequestException("Interval must not be null");
+            throw new ValidationException("Interval must not be null");
         }
         if (limit <= 0) {
-            throw new InvalidRequestException("Limit must be positive, but was " + limit);
+            throw new ValidationException("Limit must be positive, but was " + limit);
         }
         if (start != null && end != null && start.isAfter(end)) {
-            throw new InvalidRequestException("Start " + start + " must not be after end " + end);
+            throw new ValidationException("Start " + start + " must not be after end " + end);
         }
     }
 }

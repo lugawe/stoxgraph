@@ -2,9 +2,10 @@ package org.stoxgraph.core.domain.marketdata;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Currency;
 import java.util.Objects;
 import java.util.function.Function;
+
+import org.stoxgraph.core.domain.money.Currency;
 
 /**
  * Snapshot of the current state of a stock: "what is the price right now and how did it move today?".

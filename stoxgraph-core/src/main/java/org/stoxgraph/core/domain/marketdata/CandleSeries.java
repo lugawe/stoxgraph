@@ -1,10 +1,11 @@
 package org.stoxgraph.core.domain.marketdata;
 
 import java.math.BigDecimal;
-import java.util.Currency;
 import java.util.Objects;
 import java.util.SequencedCollection;
 import java.util.function.Function;
+
+import org.stoxgraph.core.domain.money.Currency;
 
 /**
  * Price history of a stock as a sequence of candles of the same length.
